@@ -1,0 +1,42 @@
+from player import *
+from proiettile import *
+
+
+def main():
+    LARGHEZZA = 900
+    ALTEZZA = 600
+
+    FPS = 60
+
+    esci = False
+
+    clock = pygame.time.Clock()
+
+    window = pygame.display.set_mode((LARGHEZZA, ALTEZZA))
+
+    player = Player(vita=150, x=LARGHEZZA // 2, y=ALTEZZA // 2, directory='assets', nome_file='player.png',scalax=80, scalay=70)
+    player.set_position(LARGHEZZA // 2 - 45, ALTEZZA // 2 + 90)
+
+    while not esci:
+        window.fill(color=(0, 0, 0))
+        clock.tick(FPS)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                esci = True
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    player.add_bullet()
+
+        player.move(LARGHEZZA)
+
+        player.shoot(window)
+        player.draw(window)
+
+        pygame.display.update()
+
+    pygame.quit()
+
+
+if __name__ == '__main__':
+    main()
