@@ -17,8 +17,11 @@ class Player:
         self.rect.y = y
 
     def add_bullet(self):
-        bullet = Proiettile(self.rect.x, self.rect.width, self.rect.y, self.rect.height, 7, 15)
-        self.lista_proiettili.append(bullet)
+        if len(self.lista_proiettili) < 2:
+            bullet = Proiettile(self.rect.x, self.rect.width, self.rect.y, self.rect.height, 7, 15)
+            bullet.shoot_sound()
+
+            self.lista_proiettili.append(bullet)
 
     def move(self, LARGHEZZA):
         key_premuta = pygame.key.get_pressed()
@@ -33,6 +36,10 @@ class Player:
         for bullett in self.lista_proiettili:
             bullett.rect.y -= 11
             pygame.draw.rect(window, color=(214, 209, 47), rect=bullett)
+
+            if bullett.rect.y < 0:
+                self.lista_proiettili.remove(bullett)
+                print("distrutto")
 
     def draw(self, window):
         window.blit(self.image, (self.rect.x, self.rect.y))
