@@ -1,6 +1,6 @@
 from player import *
 from proiettile import *
-
+from music import *
 
 def main():
     LARGHEZZA = 900
@@ -17,11 +17,15 @@ def main():
     player = Player(vita=150, x=LARGHEZZA // 2, y=ALTEZZA // 2, directory='assets', nome_file='player.png',scalax=80, scalay=70)
     player.set_position(LARGHEZZA // 2 - 45, ALTEZZA // 2 + 90)
 
+    music = Music()
+    music.play()
+
     while not esci:
         window.fill(color=(0, 0, 0))
         clock.tick(FPS)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                music.stop()
                 esci = True
 
             if event.type == pygame.KEYDOWN:
