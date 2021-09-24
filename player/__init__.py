@@ -35,11 +35,11 @@ class Player:
     def shoot(self, window):
         for bullett in self.lista_proiettili:
             bullett.rect.y -= 11
+
             pygame.draw.rect(window, color=(214, 209, 47), rect=bullett)
 
-            if bullett.rect.y < 0:
+            if bullett.rect.y < 0:  # check collision with map border
                 self.lista_proiettili.remove(bullett)
-                print("distrutto")
 
     def draw(self, window):
         window.blit(self.image, (self.rect.x, self.rect.y))

@@ -1,10 +1,11 @@
 from player import *
-from proiettile import *
 from music import *
+from ondate import *
+
 
 def main():
-    LARGHEZZA = 900
-    ALTEZZA = 600
+    LARGHEZZA = 1200
+    ALTEZZA = 850
 
     FPS = 60
 
@@ -14,16 +15,18 @@ def main():
 
     window = pygame.display.set_mode((LARGHEZZA, ALTEZZA))
 
-    player = Player(vita=150, x=LARGHEZZA // 2, y=ALTEZZA // 2, directory='assets', nome_file='player.png',scalax=80, scalay=70)
-    player.set_position(LARGHEZZA // 2 - 45, ALTEZZA // 2 + 90)
+    player = Player(vita=150, x=LARGHEZZA // 2 - 45, y=ALTEZZA // 2 + 300, directory='assets', nome_file='player.png',scalax=80, scalay=70)
+
+    ondate = Ondate()
 
     music = Music()
     music.play()
 
     while not esci:
-        window.fill(color=(0, 0, 0))
-        clock.tick(FPS)
-        for event in pygame.event.get():
+        window.fill(color=(0, 0, 0))  # clear the screen with BLACK
+        clock.tick(FPS)  # set fps limit to (FPS)
+
+        for event in pygame.event.get():  # check for new event
             if event.type == pygame.QUIT:
                 music.stop()
                 esci = True
@@ -33,9 +36,10 @@ def main():
                     player.add_bullet()
 
         player.move(LARGHEZZA)
-
         player.shoot(window)
         player.draw(window)
+
+        ondate.draw(window)
 
         pygame.display.update()
 
