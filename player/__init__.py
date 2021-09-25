@@ -12,10 +12,6 @@ class Player:
         self.rect = pygame.Rect(x, y, self.image.get_width(), self.image.get_height())
         self.lista_proiettili = []
 
-    def set_position(self, x, y):
-        self.rect.x = x
-        self.rect.y = y
-
     def add_bullet(self):
         if len(self.lista_proiettili) < 2:
             bullet = Proiettile(self.rect.x, self.rect.width, self.rect.y, self.rect.height, 7, 15)
@@ -32,7 +28,7 @@ class Player:
         if key_premuta[pygame.K_d] and self.rect.x < LARGHEZZA - self.rect.width:
             self.rect.x += 5
 
-    def shoot(self, window):
+    def shoot(self, window, ondate):
         for bullett in self.lista_proiettili:
             bullett.rect.y -= 11
 
@@ -40,6 +36,20 @@ class Player:
 
             if bullett.rect.y < 0:  # check collision with map border
                 self.lista_proiettili.remove(bullett)
+
+            for nemico_scudo in ondate.nemico_scudo_list:
+                if bullett.rect.colliderect(nemico_scudo.rect):
+                    self.lista_proiettili.remove(bullett)
+
+                    if nemico_scudo.scudo > 0:
+                        nemico_scudo.scudo -= bullett.danno
+
+                    elif nemico_scudo.vita > 0:
+                        nemico_scudo.vita -= bullett.danno
+                        nemico_scudo.vita -= bullett.danno
+
+                    else:
+                        ondate.nemico_scudo_list.remove(nemico_scudo)
 
     def draw(self, window):
         window.blit(self.image, (self.rect.x, self.rect.y))

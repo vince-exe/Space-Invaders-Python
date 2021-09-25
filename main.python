@@ -5,11 +5,20 @@ from music import *
 from ondate import *
 
 
+pygame.init()
+
+
 def main():
     LARGHEZZA = 1200
     ALTEZZA = 850
 
     FPS = 60
+
+    MUOVI_ONDATA = pygame.USEREVENT + 1
+    pygame.time.set_timer(MUOVI_ONDATA, 2000)
+
+    MUOVI_SINGOLO = pygame.USEREVENT + 2
+    pygame.time.set_timer(MUOVI_SINGOLO, 15000)
 
     esci = False
 
@@ -37,8 +46,15 @@ def main():
                 if event.key == pygame.K_SPACE:
                     player.add_bullet()
 
+            if event.type == MUOVI_ONDATA:
+                ondate.move()
+
+            if event.type == MUOVI_SINGOLO:
+                pygame.time.set_timer(MUOVI_ONDATA, 0)
+                print("ondata ferma")
+
         player.move(LARGHEZZA)
-        player.shoot(window)
+        player.shoot(window, ondate)
         player.draw(window)
 
         ondate.draw(window)

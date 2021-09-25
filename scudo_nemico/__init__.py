@@ -14,4 +14,4 @@ class NemicoScudo:
         window.blit(self.image, (self.rect.x, self.rect.y))
 
     def move(self):
-        self.rect.y += 5
+        self.rect.y += 20

@@ -8,6 +8,7 @@ class Proiettile:
         self.rect = pygame.Rect(x + width // 2 - 2, y + height - 15, larghezza, altezza)
         self.sound_shoot = pygame.mixer.Sound(os.path.join('assets', 'shoot.mp3'))
         self.sound_shoot.set_volume(0.1)
+        self.danno = 50
 
     def shoot_sound(self):
         self.sound_shoot.play()
