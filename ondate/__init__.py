@@ -1,4 +1,7 @@
+import pygame
 from scudo_nemico import *
+
+pygame.init()
 
 
 class Ondate:
@@ -18,5 +21,6 @@ class Ondate:
             self.nemico_scudo_list.append(scudo)
 
     def draw(self, window):
-        for index in range(len(self.nemico_scudo_list)):
-            self.nemico_scudo_list[index].draw(window)
+        for index in self.nemico_scudo_list:
+            index.draw(window)
+            print(index)
