@@ -1,3 +1,4 @@
+from proiettile import Proiettile
 import pygame
 import os
 
@@ -12,6 +13,3 @@ class NemicoScudo:
 
     def draw(self, window):
         window.blit(self.image, (self.rect.x, self.rect.y))
-
-    def move(self):
-        self.rect.y += 20

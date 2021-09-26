@@ -16,9 +16,9 @@ class Ondate:
 
             self.nemico_scudo_list.append(scudo)
 
-    def move(self):
+    def move_ondata(self):
         for index in self.nemico_scudo_list:
-            index.move()
+            index.rect.y += 32
 
     def draw(self, window):
         for index in self.nemico_scudo_list:

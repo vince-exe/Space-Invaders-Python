@@ -3,7 +3,7 @@ import pygame.time
 from player import *
 from music import *
 from ondate import *
-
+from font import *
 
 pygame.init()
 
@@ -17,8 +17,8 @@ def main():
     MUOVI_ONDATA = pygame.USEREVENT + 1
     pygame.time.set_timer(MUOVI_ONDATA, 2000)
 
-    MUOVI_SINGOLO = pygame.USEREVENT + 2
-    pygame.time.set_timer(MUOVI_SINGOLO, 15000)
+    FERMA_ONDATA = pygame.USEREVENT + 2
+    pygame.time.set_timer(FERMA_ONDATA, 15000)
 
     esci = False
 
@@ -29,6 +29,8 @@ def main():
     player = Player(vita=150, x=LARGHEZZA // 2 - 45, y=ALTEZZA // 2 + 300, directory='assets', nome_file='player.png',scalax=80, scalay=70)
 
     ondate = Ondate()
+
+    font = Font("comicsans", 60, "Score ", (219, 216, 13))
 
     music = Music()
     music.play()
@@ -47,16 +49,17 @@ def main():
                     player.add_bullet()
 
             if event.type == MUOVI_ONDATA:
-                ondate.move()
+                ondate.move_ondata()
 
-            if event.type == MUOVI_SINGOLO:
+            if event.type == FERMA_ONDATA:
                 pygame.time.set_timer(MUOVI_ONDATA, 0)
                 print("ondata ferma")
 
         player.move(LARGHEZZA)
-        player.shoot(window, ondate)
+        player.shoot(window, ondate, font)
         player.draw(window)
 
+        font.draw(window, 980, 800)
         ondate.draw(window)
 
         pygame.display.update()

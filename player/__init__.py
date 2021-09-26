@@ -11,6 +11,7 @@ class Player:
         self.image = pygame.transform.rotate(self.image, 180)
         self.rect = pygame.Rect(x, y, self.image.get_width(), self.image.get_height())
         self.lista_proiettili = []
+        self.score = 0
 
     def add_bullet(self):
         if len(self.lista_proiettili) < 2:
@@ -28,7 +29,7 @@ class Player:
         if key_premuta[pygame.K_d] and self.rect.x < LARGHEZZA - self.rect.width:
             self.rect.x += 5
 
-    def shoot(self, window, ondate):
+    def shoot(self, window, ondate, font):
         for bullett in self.lista_proiettili:
             bullett.rect.y -= 11
 
@@ -50,6 +51,8 @@ class Player:
 
                     else:
                         ondate.nemico_scudo_list.remove(nemico_scudo)
+                        self.score += 1
+                        font.set_text("Score: " + str(self.score), True, (219, 216, 13))
 
     def draw(self, window):
         window.blit(self.image, (self.rect.x, self.rect.y))
