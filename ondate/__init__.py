@@ -47,7 +47,7 @@ class Ondate:
 
             shooter.shoot(window, bullet)
 
-    def draw(self, window):
+    def draw(self, window, ALTEZZA):
         for index in self.nemico_scudo_list:  # disegno il nemico scudo
             index.draw(window)
 
@@ -55,4 +55,4 @@ class Ondate:
             index.draw(window)
 
         for shooter in self.nemico_shooter_list:
-            shooter.update_proiettile()
+            shooter.update_proiettile(ALTEZZA)

@@ -14,9 +14,12 @@ class Shooter:
     def shoot(self, window, bullet):
         self.lista_proiettili.append(bullet)
 
-    def update_proiettile(self):
+    def update_proiettile(self, ALTEZZA):
         for bullet in self.lista_proiettili:
             bullet.rect.y += 5
+
+            if bullet.rect.y - bullet.rect.height > ALTEZZA:
+                self.lista_proiettili.remove(bullet)
 
     def draw(self, window):
         window.blit(self.image, (self.rect.x, self.rect.y))
