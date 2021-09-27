@@ -1,4 +1,3 @@
-from proiettile import Proiettile
 import pygame
 import os
 

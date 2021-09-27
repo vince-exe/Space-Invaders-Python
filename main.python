@@ -14,11 +14,13 @@ def main():
 
     FPS = 60
 
+    SPARA = False
+
     MUOVI_ONDATA = pygame.USEREVENT + 1
     pygame.time.set_timer(MUOVI_ONDATA, 2000)
 
-    FERMA_ONDATA = pygame.USEREVENT + 2
-    pygame.time.set_timer(FERMA_ONDATA, 15000)
+    SPARA_ALIENO = pygame.USEREVENT + 3
+    pygame.time.set_timer(SPARA_ALIENO, 1000)
 
     esci = False
 
@@ -26,7 +28,7 @@ def main():
 
     window = pygame.display.set_mode((LARGHEZZA, ALTEZZA))
 
-    player = Player(vita=150, x=LARGHEZZA // 2 - 45, y=ALTEZZA // 2 + 300, directory='assets', nome_file='player.png',scalax=80, scalay=70)
+    player = Player(vita=150, x=LARGHEZZA // 2 - 45, y=ALTEZZA // 2 + 280, directory='assets', nome_file='player.png',scalax=80, scalay=70)
 
     ondate = Ondate()
 
@@ -49,16 +51,15 @@ def main():
                     player.add_bullet()
 
             if event.type == MUOVI_ONDATA:
-                ondate.move_ondata()
+                ondate.move_ondata_scudo()
 
-            if event.type == FERMA_ONDATA:
-                pygame.time.set_timer(MUOVI_ONDATA, 0)
-                print("ondata ferma")
+            if event.type == SPARA_ALIENO:
+                ondate.shoot(window)
 
         player.move(LARGHEZZA)
         player.shoot(window, ondate, font)
-        player.draw(window)
 
+        player.draw(window)
         font.draw(window, 980, 800)
         ondate.draw(window)
 

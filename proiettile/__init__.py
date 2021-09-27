@@ -13,3 +13,5 @@ class Proiettile:
     def shoot_sound(self):
         self.sound_shoot.play()
 
+    def draw(self, window):
+        pygame.draw.rect(window, color=(214, 209, 47), rect=self.rect)

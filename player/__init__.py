@@ -35,11 +35,11 @@ class Player:
 
             pygame.draw.rect(window, color=(214, 209, 47), rect=bullett)
 
-            if bullett.rect.y < 0:  # check collision with map border
+            if bullett.rect.y < 0:  # check collision con il bordo mappa
                 self.lista_proiettili.remove(bullett)
 
             for nemico_scudo in ondate.nemico_scudo_list:
-                if bullett.rect.colliderect(nemico_scudo.rect):
+                if bullett.rect.colliderect(nemico_scudo.rect):  # check collision con il nemico scudo
                     self.lista_proiettili.remove(bullett)
 
                     if nemico_scudo.scudo > 0:
@@ -51,6 +51,19 @@ class Player:
 
                     else:
                         ondate.nemico_scudo_list.remove(nemico_scudo)
+                        self.score += 1
+                        font.set_text("Score: " + str(self.score), True, (219, 216, 13))
+
+            for shooter in ondate.nemico_shooter_list:
+                if bullett.rect.colliderect(shooter.rect):
+                    self.lista_proiettili.remove(bullett)
+
+                    if shooter.vita == 100:
+                        shooter.vita -= bullett.danno
+
+                    elif shooter.vita == 50:
+                        shooter.vita -= bullett.danno
+                        ondate.nemico_shooter_list.remove(shooter)
                         self.score += 1
                         font.set_text("Score: " + str(self.score), True, (219, 216, 13))
 
