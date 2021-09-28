@@ -35,7 +35,7 @@ class Ondate:
 
             self.nemico_shooter_list.append(shooter)
 
-    def move_ondata_scudo(self):
+    def update_ondata_scudo(self):
         for index in self.nemico_scudo_list:
             index.rect.y += 32
 
@@ -47,7 +47,15 @@ class Ondate:
 
             shooter.shoot(window, bullet)
 
-    def draw(self, window, ALTEZZA):
+    def check_collision(self, player, ALTEZZA):
+        for index in self.nemico_scudo_list:    # check collision con il player
+            if index.rect.colliderect(player.rect):
+                self.nemico_scudo_list.remove(index)
+
+            if index.rect.y - index.rect.height >= ALTEZZA:   # check collision con il limite mappa
+                self.nemico_scudo_list.remove(index)
+
+    def draw(self, window, ALTEZZA, player):
         for index in self.nemico_scudo_list:  # disegno il nemico scudo
             index.draw(window)
 
@@ -55,4 +63,4 @@ class Ondate:
             index.draw(window)
 
         for shooter in self.nemico_shooter_list:
-            shooter.update_proiettile(ALTEZZA)
+            shooter.update_proiettile(ALTEZZA, player)

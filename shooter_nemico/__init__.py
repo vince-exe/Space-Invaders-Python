@@ -14,11 +14,14 @@ class Shooter:
     def shoot(self, window, bullet):
         self.lista_proiettili.append(bullet)
 
-    def update_proiettile(self, ALTEZZA):
+    def update_proiettile(self, ALTEZZA, player):
         for bullet in self.lista_proiettili:
             bullet.rect.y += 5
 
-            if bullet.rect.y - bullet.rect.height > ALTEZZA:
+            if bullet.rect.y - bullet.rect.height > ALTEZZA:  # se superano lo schermo
+                self.lista_proiettili.remove(bullet)
+
+            if bullet.rect.colliderect(player.rect):  # se colpiscono il player
                 self.lista_proiettili.remove(bullet)
 
     def draw(self, window):
