@@ -48,11 +48,12 @@ class Ondate:
             shooter.shoot(window, bullet)
 
     def check_collision(self, player, ALTEZZA):
-        for index in self.nemico_scudo_list:    # check collision con il player
+        for index in self.nemico_scudo_list:    # check collision SCUDO_NEMICO + player
             if index.rect.colliderect(player.rect):
+                player.vita -= 25
                 self.nemico_scudo_list.remove(index)
 
-            if index.rect.y - index.rect.height >= ALTEZZA:   # check collision con il limite mappa
+            if index.rect.y - index.rect.height >= ALTEZZA:   # check collision SCUDO_NEMICO + limite mappa
                 self.nemico_scudo_list.remove(index)
 
     def draw(self, window, ALTEZZA, player):
@@ -63,4 +64,5 @@ class Ondate:
             index.draw(window)
 
         for shooter in self.nemico_shooter_list:
-            shooter.update_proiettile(ALTEZZA, player)
+            shooter.update_proiettile()
+            shooter.check_collision(player, ALTEZZA)

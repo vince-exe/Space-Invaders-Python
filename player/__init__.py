@@ -4,8 +4,8 @@ from proiettile import Proiettile
 
 
 class Player:
-    def __init__(self, vita, x, y, directory, nome_file, scalax, scalay):
-        self.vita = vita
+    def __init__(self, x, y, directory, nome_file, scalax, scalay):
+        self.vita = 200
         self.image = pygame.image.load(os.path.join(directory, nome_file))
         self.image = pygame.transform.scale(self.image, (scalax, scalay))
         self.image = pygame.transform.rotate(self.image, 180)
@@ -28,7 +28,7 @@ class Player:
         if key_premuta[pygame.K_d] and self.rect.x < LARGHEZZA - self.rect.width:
             self.rect.x += 5
 
-    def shoot(self, window, ondate, font, game):
+    def shoot(self, window):
         for bullett in self.lista_proiettili:
             bullett.rect.y -= 11
 
@@ -37,16 +37,18 @@ class Player:
             if bullett.rect.y < 0:  # check collision con il bordo mappa
                 self.lista_proiettili.remove(bullett)
 
+    def check_collision(self, ondate, font, game):
+        for bullet in self.lista_proiettili:
             for nemico_scudo in ondate.nemico_scudo_list:
-                if bullett.rect.colliderect(nemico_scudo.rect):  # check collision con il nemico scudo
-                    self.lista_proiettili.remove(bullett)
+                if bullet.rect.colliderect(nemico_scudo.rect):  # check collision con il nemico scudo
+                    self.lista_proiettili.remove(bullet)
 
                     if nemico_scudo.scudo > 0:
-                        nemico_scudo.scudo -= bullett.danno
+                        nemico_scudo.scudo -= bullet.danno
 
                     elif nemico_scudo.vita > 0:
-                        nemico_scudo.vita -= bullett.danno
-                        nemico_scudo.vita -= bullett.danno
+                        nemico_scudo.vita -= bullet.danno
+                        nemico_scudo.vita -= bullet.danno
 
                     else:
                         ondate.nemico_scudo_list.remove(nemico_scudo)
@@ -54,14 +56,14 @@ class Player:
                         font.set_text("Score: " + str(game.score), True, (219, 216, 13))
 
             for shooter in ondate.nemico_shooter_list:
-                if bullett.rect.colliderect(shooter.rect):
-                    self.lista_proiettili.remove(bullett)
+                if bullet.rect.colliderect(shooter.rect):
+                    self.lista_proiettili.remove(bullet)
 
                     if shooter.vita == 100:
-                        shooter.vita -= bullett.danno
+                        shooter.vita -= bullet.danno
 
                     elif shooter.vita == 50:
-                        shooter.vita -= bullett.danno
+                        shooter.vita -= bullet.danno
                         ondate.nemico_shooter_list.remove(shooter)
                         game.score += 1
                         font.set_text("Score: " + str(game.score), True, (219, 216, 13))
