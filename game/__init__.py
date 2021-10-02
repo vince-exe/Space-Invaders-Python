@@ -11,7 +11,6 @@ class Game:
         self.FPS = 60
         self.esci = False
         self.score = 0
-        livello = 0
 
         # EVENTI
         self.movimento_ondata = 2000
@@ -20,8 +19,16 @@ class Game:
         # CLOCK_FPS
         self.clock = pygame.time.Clock()
 
-        # FONT
-        self.font_score = Font("comicsans", 60, "Score ", (219, 216, 13))
-
     def set_fps(self, FPS):
         self.clock.tick(FPS)
+
+    def draw_loser(self, font, window, LARGHEZZA, ALTEZZA):
+        font.set_text("Hai Perso", True, (255, 0, 0))
+
+        font.draw(window, LARGHEZZA // 2 - 150, ALTEZZA // 2 - font.text.get_height())
+
+        pygame.display.update()
+
+        pygame.time.delay(3000)
+
+        self.esci = True

@@ -17,7 +17,7 @@ def main():
     MUOVI_ONDATA = pygame.USEREVENT + 1
     pygame.time.set_timer(MUOVI_ONDATA, game.movimento_ondata)
 
-    SPARA_ALIENO = pygame.USEREVENT + 3
+    SPARA_ALIENO = pygame.USEREVENT + 2
     pygame.time.set_timer(SPARA_ALIENO, game.spara_alieno)
 
     window = pygame.display.set_mode((LARGHEZZA, ALTEZZA))
@@ -25,6 +25,10 @@ def main():
     player = Player(x=LARGHEZZA // 2 - 45, y=ALTEZZA // 2 + 280, directory='assets', nome_file='player.png', scalax=80, scalay=70)
 
     ondate = Ondate()
+
+    font_score = Font("comicsans", 60, "Score: ", (219, 216, 13))
+    font_health = Font("comicsans", 60, "Vita: ", (219, 216, 13))
+    font_lose = Font("comicsans", 90, "Hai Perso", (219, 216, 13))
 
     music = Music()
     music.play()
@@ -48,14 +52,18 @@ def main():
             if event.type == SPARA_ALIENO:
                 ondate.shoot(window)
 
+        if player.vita <= 0:
+            game.draw_loser(font_lose, window, LARGHEZZA, ALTEZZA)
+
         player.move(LARGHEZZA)
         player.shoot(window)
-        player.check_collision(ondate, game.font_score, game)
+        player.check_collision(ondate, font_score, game)
 
         ondate.check_collision(player, ALTEZZA)
 
         player.draw(window)
-        game.font_score.draw(window, 980, 800)
+        player.health(font_health, window)
+        font_score.draw(window, 980, 800)
         ondate.draw(window, ALTEZZA, player)
 
         pygame.display.update()

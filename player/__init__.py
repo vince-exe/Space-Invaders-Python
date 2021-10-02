@@ -70,3 +70,8 @@ class Player:
 
     def draw(self, window):
         window.blit(self.image, (self.rect.x, self.rect.y))
+
+    def health(self, font_health, window):
+        font_health.set_text("Vita: " + str(self.vita), True, (219, 216, 13))
+
+        font_health.draw(window, 30, 800)
