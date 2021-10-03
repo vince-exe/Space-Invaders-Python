@@ -52,18 +52,19 @@ def main():
             if event.type == SPARA_ALIENO:
                 ondate.shoot(window)
 
-        if player.vita <= 0:
-            game.draw_loser(font_lose, window, LARGHEZZA, ALTEZZA)
+        if game.lost:   # se hai perso
+            game.draw_loser(font_lose, window, LARGHEZZA, ALTEZZA, music)
 
         player.move(LARGHEZZA)
         player.shoot(window)
         player.check_collision(ondate, font_score, game)
 
-        ondate.check_collision(player, ALTEZZA)
+        ondate.check_collision(player, ALTEZZA, game)
+        ondate.spawn_orda()
 
         player.draw(window)
-        player.health(font_health, window)
-        font_score.draw(window, 980, 800)
+        player.health(font_health, window, game)
+        font_score.draw(window, 960, 800)
         ondate.draw(window, ALTEZZA, player)
 
         pygame.display.update()

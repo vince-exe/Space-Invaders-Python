@@ -15,6 +15,7 @@ class Game:
         # EVENTI
         self.movimento_ondata = 2000
         self.spara_alieno = 1000
+        self.lost = False
 
         # CLOCK_FPS
         self.clock = pygame.time.Clock()
@@ -22,7 +23,9 @@ class Game:
     def set_fps(self, FPS):
         self.clock.tick(FPS)
 
-    def draw_loser(self, font, window, LARGHEZZA, ALTEZZA):
+    def draw_loser(self, font, window, LARGHEZZA, ALTEZZA, music):
+        music.stop()
+
         font.set_text("Hai Perso", True, (255, 0, 0))
 
         font.draw(window, LARGHEZZA // 2 - 150, ALTEZZA // 2 - font.text.get_height())

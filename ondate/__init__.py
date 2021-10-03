@@ -4,6 +4,8 @@ from scudo_nemico import *
 from shooter_nemico import *
 from proiettile import *
 
+pygame.init()
+
 
 class Ondate:
     def __init__(self):
@@ -47,7 +49,7 @@ class Ondate:
 
             shooter.shoot(window, bullet)
 
-    def check_collision(self, player, ALTEZZA):
+    def check_collision(self, player, ALTEZZA, game):
         for index in self.nemico_scudo_list:    # check collision SCUDO_NEMICO + player
             if index.rect.colliderect(player.rect):
                 player.vita -= 25
@@ -55,6 +57,7 @@ class Ondate:
 
             if index.rect.y - index.rect.height >= ALTEZZA:   # check collision SCUDO_NEMICO + limite mappa
                 self.nemico_scudo_list.remove(index)
+                game.lost = True
 
     def draw(self, window, ALTEZZA, player):
         for index in self.nemico_scudo_list:  # disegno il nemico scudo
@@ -66,3 +69,31 @@ class Ondate:
         for shooter in self.nemico_shooter_list:
             shooter.update_proiettile()
             shooter.check_collision(player, ALTEZZA)
+
+    def spawn_orda(self):
+        if len(self.nemico_scudo_list) <= 0:
+            if len(self.nemico_shooter_list) <= 0:
+                x_scudo = 40
+                y_scudo = 100
+
+                for index in range(10):
+                    if index >= 1:  # dal primo in poi incremento la posizione
+                        x_scudo += 110
+                        scudo = NemicoScudo(x_scudo, y_scudo)
+
+                    else:  # se è il primo lo piazzi a x = 40 y = 100
+                        scudo = NemicoScudo(x_scudo, y_scudo)
+
+                    self.nemico_scudo_list.append(scudo)
+
+                x_shooter = 45
+                y_shooter = 20
+
+                for index in range(10):
+                    if index >= 1:
+                        x_shooter += 110
+                        shooter = Shooter(x_shooter, y_shooter)
+                    else:
+                        shooter = Shooter(x_shooter, y_shooter)
+
+                    self.nemico_shooter_list.append(shooter)
