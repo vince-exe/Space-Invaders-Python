@@ -1,4 +1,5 @@
 import random
+import time
 
 from scudo_nemico import *
 from shooter_nemico import *
@@ -13,7 +14,7 @@ class Ondate:
         self.nemico_shooter_list = []
 
         x_scudo = 40
-        y_scudo = 100
+        y_scudo = 200
 
         for index in range(10):
             if index >= 1:  # dal primo in poi incremento la posizione
@@ -26,7 +27,7 @@ class Ondate:
             self.nemico_scudo_list.append(scudo)
 
         x_shooter = 45
-        y_shooter = 20
+        y_shooter = 100
 
         for index in range(10):
             if index >= 1:
@@ -59,22 +60,22 @@ class Ondate:
                 self.nemico_scudo_list.remove(index)
                 game.lost = True
 
-    def draw(self, window, ALTEZZA, player):
+        for index in self.nemico_shooter_list:
+            index.check_collision(player, ALTEZZA)
+
+    def draw(self, window):
         for index in self.nemico_scudo_list:  # disegno il nemico scudo
             index.draw(window)
-
+        
         for index in self.nemico_shooter_list:  # disegno il nemico shooter
             index.draw(window)
+            index.update_proiettile()
 
-        for shooter in self.nemico_shooter_list:
-            shooter.update_proiettile()
-            shooter.check_collision(player, ALTEZZA)
-
-    def spawn_orda(self):
+    def spawn_orda(self, font_score, game):
         if len(self.nemico_scudo_list) <= 0:
             if len(self.nemico_shooter_list) <= 0:
                 x_scudo = 40
-                y_scudo = 100
+                y_scudo = 200
 
                 for index in range(10):
                     if index >= 1:  # dal primo in poi incremento la posizione
@@ -87,7 +88,7 @@ class Ondate:
                     self.nemico_scudo_list.append(scudo)
 
                 x_shooter = 45
-                y_shooter = 20
+                y_shooter = 100
 
                 for index in range(10):
                     if index >= 1:
@@ -97,3 +98,6 @@ class Ondate:
                         shooter = Shooter(x_shooter, y_shooter)
 
                     self.nemico_shooter_list.append(shooter)
+
+                game.livelli += 1
+                font_score.set_text("Livelli: " + str(game.livelli), True, (219, 216, 13))

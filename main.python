@@ -1,11 +1,13 @@
 import pygame.time
 
-from player import *
 from music import *
+from player import *
+from sound import *
 from ondate import *
 from game import *
 
 pygame.init()
+pygame.mouse.set_visible(False)
 
 
 def main():
@@ -29,9 +31,11 @@ def main():
     font_score = Font("comicsans", 60, "Score: ", (219, 216, 13))
     font_health = Font("comicsans", 60, "Vita: ", (219, 216, 13))
     font_lose = Font("comicsans", 90, "Hai Perso", (219, 216, 13))
+    font_livelli = Font("comicsans", 60, "Livelli: ", (219, 216, 13))
 
-    music = Music()
-    music.play()
+    hit_sound = Sound('assets', 'hit_sound.mp3', 0.1)
+
+    music = Music(0.7, True)
 
     while not game.esci:
         window.fill(color=(0, 0, 0))  # clear the screen with BLACK
@@ -39,12 +43,15 @@ def main():
 
         for event in pygame.event.get():  # check for new event
             if event.type == pygame.QUIT:
-                music.stop()
+                pygame.mixer.stop()
                 game.esci = True
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     player.add_bullet()
+
+                if event.key == pygame.K_ESCAPE:
+                    music.check_pause()
 
             if event.type == MUOVI_ONDATA:
                 ondate.update_ondata_scudo()
@@ -53,19 +60,20 @@ def main():
                 ondate.shoot(window)
 
         if game.lost:   # se hai perso
-            game.draw_loser(font_lose, window, LARGHEZZA, ALTEZZA, music)
+            game.draw_loser(font_lose, window, LARGHEZZA, ALTEZZA)
 
         player.move(LARGHEZZA)
         player.shoot(window)
-        player.check_collision(ondate, font_score, game)
+        player.check_collision(ondate, font_score, game, hit_sound)
 
         ondate.check_collision(player, ALTEZZA, game)
-        ondate.spawn_orda()
+        ondate.spawn_orda(font_livelli, game)
 
         player.draw(window)
         player.health(font_health, window, game)
-        font_score.draw(window, 960, 800)
-        ondate.draw(window, ALTEZZA, player)
+        font_score.draw(window, 960, 15)
+        font_livelli.draw(window, 965, 790)
+        ondate.draw(window)
 
         pygame.display.update()
 

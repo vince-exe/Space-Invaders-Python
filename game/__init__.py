@@ -11,6 +11,7 @@ class Game:
         self.FPS = 60
         self.esci = False
         self.score = 0
+        self.livelli = 0
 
         # EVENTI
         self.movimento_ondata = 2000
@@ -23,8 +24,8 @@ class Game:
     def set_fps(self, FPS):
         self.clock.tick(FPS)
 
-    def draw_loser(self, font, window, LARGHEZZA, ALTEZZA, music):
-        music.stop()
+    def draw_loser(self, font, window, LARGHEZZA, ALTEZZA):
+        pygame.mixer.music.stop()
 
         font.set_text("Hai Perso", True, (255, 0, 0))
 

@@ -22,10 +22,10 @@ class Player:
     def move(self, LARGHEZZA):
         key_premuta = pygame.key.get_pressed()
 
-        if key_premuta[pygame.K_a] and self.rect.x > 0:
+        if key_premuta[pygame.K_LEFT] and self.rect.x > 0:
             self.rect.x -= 5
 
-        if key_premuta[pygame.K_d] and self.rect.x < LARGHEZZA - self.rect.width:
+        if key_premuta[pygame.K_RIGHT] and self.rect.x < LARGHEZZA - self.rect.width:
             self.rect.x += 5
 
     def shoot(self, window):
@@ -37,11 +37,12 @@ class Player:
             if bullett.rect.y < 0:  # check collision con il bordo mappa
                 self.lista_proiettili.remove(bullett)
 
-    def check_collision(self, ondate, font, game):
+    def check_collision(self, ondate, font, game, sound):
         for bullet in self.lista_proiettili:
             for nemico_scudo in ondate.nemico_scudo_list:
                 if bullet.rect.colliderect(nemico_scudo.rect):  # check collision con il nemico scudo
                     self.lista_proiettili.remove(bullet)
+                    sound.sound.play()
 
                     if nemico_scudo.scudo > 0:
                         nemico_scudo.scudo -= bullet.danno
@@ -52,12 +53,14 @@ class Player:
 
                     else:
                         ondate.nemico_scudo_list.remove(nemico_scudo)
+
                         game.score += 1
                         font.set_text("Score: " + str(game.score), True, (219, 216, 13))
 
             for shooter in ondate.nemico_shooter_list:
                 if bullet.rect.colliderect(shooter.rect):
                     self.lista_proiettili.remove(bullet)
+                    sound.sound.play()
 
                     if shooter.vita == 100:
                         shooter.vita -= bullet.danno
@@ -65,6 +68,7 @@ class Player:
                     elif shooter.vita == 50:
                         shooter.vita -= bullet.danno
                         ondate.nemico_shooter_list.remove(shooter)
+
                         game.score += 1
                         font.set_text("Score: " + str(game.score), True, (219, 216, 13))
 
@@ -74,7 +78,7 @@ class Player:
     def health(self, font_health, window, game):
         font_health.set_text("Vita: " + str(self.vita), True, (219, 216, 13))
 
-        font_health.draw(window, 30, 800)
+        font_health.draw(window, 30, 15)
 
         if self.vita <= 0:
             game.lost = True
