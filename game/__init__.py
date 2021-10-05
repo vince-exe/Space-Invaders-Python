@@ -36,3 +36,16 @@ class Game:
         pygame.time.delay(3000)
 
         self.esci = True
+
+    def config_difficulty(self, ondate):
+        if self.livelli >= 4:
+            for scudo_nemico in ondate.nemico_scudo_list:
+                scudo_nemico.movimento = 40
+
+        if self.livelli >= 10:
+            for scudo_nemico in ondate.nemico_scudo_list:
+                scudo_nemico.movimento = 55
+
+        if self.livelli >= 15:
+            for scudo_nemico in ondate.nemico_scudo_list:
+                scudo_nemico.movimento = 60

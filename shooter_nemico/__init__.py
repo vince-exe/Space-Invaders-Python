@@ -18,7 +18,7 @@ class Shooter:
         for bullet in self.lista_proiettili:
             bullet.rect.y += 5
 
-    def check_collision(self, player, ALTEZZA):
+    def check_collision_proiettile(self, player, ALTEZZA):
         for bullet in self.lista_proiettili:
             if bullet.rect.colliderect(player.rect):  # se colpiscono il player
                 player.vita -= 50
@@ -27,8 +27,13 @@ class Shooter:
             if bullet.rect.y - bullet.rect.height > ALTEZZA:  # se superano lo schermo
                 self.lista_proiettili.remove(bullet)
 
-    def draw(self, window):
-        window.blit(self.image, (self.rect.x, self.rect.y))
+    def check_collision_shooter(self, player):
+        if self.rect.colliderect(player.rect):
+            return True
 
+    def draw_bullet(self, window):
         for bullet in self.lista_proiettili:
             bullet.draw(window)
+
+    def draw_shooter(self, window):
+        window.blit(self.image, (self.rect.x, self.rect.y))

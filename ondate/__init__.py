@@ -1,5 +1,4 @@
 import random
-import time
 
 from scudo_nemico import *
 from shooter_nemico import *
@@ -38,9 +37,9 @@ class Ondate:
 
             self.nemico_shooter_list.append(shooter)
 
-    def update_ondata_scudo(self):
-        for index in self.nemico_scudo_list:
-            index.rect.y += 32
+    def update_ondata(self):
+        for scudo_nemico in self.nemico_scudo_list:
+            scudo_nemico.update_nemico()
 
     def shoot(self, window):
         if not len(self.nemico_shooter_list) <= 0:
@@ -51,25 +50,26 @@ class Ondate:
             shooter.shoot(window, bullet)
 
     def check_collision(self, player, ALTEZZA, game):
-        for index in self.nemico_scudo_list:    # check collision SCUDO_NEMICO + player
-            if index.rect.colliderect(player.rect):
+        for nemico_scudo in self.nemico_scudo_list:    # check collision SCUDO_NEMICO + player
+            if nemico_scudo.rect.colliderect(player.rect):
                 player.vita -= 25
-                self.nemico_scudo_list.remove(index)
+                self.nemico_scudo_list.remove(nemico_scudo)
 
-            if index.rect.y - index.rect.height >= ALTEZZA:   # check collision SCUDO_NEMICO + limite mappa
-                self.nemico_scudo_list.remove(index)
+            if nemico_scudo.rect.y - nemico_scudo.rect.height >= ALTEZZA:   # check collision SCUDO_NEMICO + limite mappa
+                self.nemico_scudo_list.remove(nemico_scudo)
                 game.lost = True
 
-        for index in self.nemico_shooter_list:
-            index.check_collision(player, ALTEZZA)
+        for shooter in self.nemico_shooter_list:
+            shooter.check_collision_proiettile(player, ALTEZZA)
 
     def draw(self, window):
-        for index in self.nemico_scudo_list:  # disegno il nemico scudo
-            index.draw(window)
+        for nemico_scudo in self.nemico_scudo_list:  # disegno il nemico scudo
+            nemico_scudo.draw(window)
         
-        for index in self.nemico_shooter_list:  # disegno il nemico shooter
-            index.draw(window)
-            index.update_proiettile()
+        for shooter in self.nemico_shooter_list:  # disegno il nemico shooter + proiettili
+            shooter.draw_shooter(window)
+            shooter.draw_bullet(window)
+            shooter.update_proiettile()
 
     def spawn_orda(self, font_score, game):
         if len(self.nemico_scudo_list) <= 0:

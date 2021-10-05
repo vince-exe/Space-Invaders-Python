@@ -29,9 +29,9 @@ def main():
     ondate = Ondate()
 
     font_score = Font("comicsans", 60, "Score: ", (219, 216, 13))
-    font_health = Font("comicsans", 60, "Vita: ", (219, 216, 13))
-    font_lose = Font("comicsans", 90, "Hai Perso", (219, 216, 13))
-    font_livelli = Font("comicsans", 60, "Livelli: ", (219, 216, 13))
+    font_health = Font("comicsans", 60, "Health: ", (219, 216, 13))
+    font_lose = Font("comicsans", 90, "You lost", (219, 216, 13))
+    font_livelli = Font("comicsans", 60, "Levels: ", (219, 216, 13))
 
     hit_sound = Sound('assets', 'hit_sound.mp3', 0.1)
 
@@ -54,7 +54,7 @@ def main():
                     music.check_pause()
 
             if event.type == MUOVI_ONDATA:
-                ondate.update_ondata_scudo()
+                ondate.update_ondata()
 
             if event.type == SPARA_ALIENO:
                 ondate.shoot(window)
@@ -69,10 +69,14 @@ def main():
         ondate.check_collision(player, ALTEZZA, game)
         ondate.spawn_orda(font_livelli, game)
 
+        game.config_difficulty(ondate)
+
         player.draw(window)
         player.health(font_health, window, game)
+
         font_score.draw(window, 960, 15)
         font_livelli.draw(window, 965, 790)
+        
         ondate.draw(window)
 
         pygame.display.update()
