@@ -38,13 +38,13 @@ class Player:
             if bullett.rect.y < 0:  # check collision con il bordo mappa
                 self.lista_proiettili.remove(bullett)
 
-    def check_collision(self, ondate, font, game, sound):
+    def check_collision(self, ondate, font, game):
         for bullet in self.lista_proiettili:
             for nemico_scudo in ondate.nemico_scudo_list:
                 if bullet.rect.colliderect(nemico_scudo.rect):  # check collision con il nemico scudo
                     self.lista_proiettili.remove(bullet)
 
-                    sound.sound.play()
+                    game.hit_sound.sound.play()
 
                     if nemico_scudo.check_morto(bullet):
                         ondate.nemico_scudo_list.remove(nemico_scudo)
@@ -56,7 +56,7 @@ class Player:
                 if bullet.rect.colliderect(shooter.rect):
                     self.lista_proiettili.remove(bullet)
 
-                    sound.sound.play()
+                    game.hit_sound.sound.play()
 
                     if shooter.check_morto(bullet):
                         ondate.nemico_shooter_list.remove(shooter)
@@ -67,7 +67,7 @@ class Player:
     def draw(self, window):
         window.blit(self.image, (self.rect.x, self.rect.y))
 
-    def health(self, font_health, window, game):
+    def draw_health(self, font_health, window, game):
         font_health.set_text("Health: " + str(self.vita), True, (219, 216, 13))
 
         font_health.draw(window, 30, 15)

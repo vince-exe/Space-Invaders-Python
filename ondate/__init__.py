@@ -41,22 +41,24 @@ class Ondate:
         for scudo_nemico in self.nemico_scudo_list:
             scudo_nemico.update_nemico()
 
-    def shoot(self, window):
+    def shoot(self):
         if not len(self.nemico_shooter_list) <= 0:
             shooter = random.choice(self.nemico_shooter_list)
 
             bullet = Proiettile(shooter.rect.x, shooter.rect.width, shooter.rect.y, shooter.rect.height, 7, 15)
 
-            shooter.shoot(window, bullet)
+            shooter.shoot(bullet)
 
     def check_collision(self, player, ALTEZZA, game):
         for nemico_scudo in self.nemico_scudo_list:    # check collision SCUDO_NEMICO + player
             if nemico_scudo.rect.colliderect(player.rect):
                 player.vita -= 25
+
                 self.nemico_scudo_list.remove(nemico_scudo)
 
             if nemico_scudo.rect.y - nemico_scudo.rect.height >= ALTEZZA:  # check collision SCUDO_NEMICO + limite mappa
                 self.nemico_scudo_list.remove(nemico_scudo)
+
                 game.lost = True
 
         for shooter in self.nemico_shooter_list:
@@ -80,6 +82,7 @@ class Ondate:
                 for index in range(10):
                     if index >= 1:  # dal primo in poi incremento la posizione
                         x_scudo += 110
+
                         scudo = NemicoScudo(x_scudo, y_scudo)
 
                     else:  # se è il primo lo piazzi a x = 40 y = 100
@@ -93,6 +96,7 @@ class Ondate:
                 for index in range(10):
                     if index >= 1:
                         x_shooter += 110
+
                         shooter = Shooter(x_shooter, y_shooter)
                     else:
                         shooter = Shooter(x_shooter, y_shooter)

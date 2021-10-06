@@ -1,25 +1,37 @@
 import pygame
 
 from font import Font
+from sound import Sound
+from music import Music
 
 pygame.init()
 
 
 class Game:
-    def __init__(self):
-        # GAME SETTINGS
-        self.FPS = 60
-        self.esci = False
-        self.score = 0
-        self.livelli = 0
+    # Game Settings
+    FPS = 60
+    esci = False
+    score = 0
+    livelli = 0
 
-        # EVENTI
-        self.movimento_ondata = 2000
-        self.spara_alieno = 1000
-        self.lost = False
+    # Events
+    movimento_ondata = 2000
+    spara_alieno = 1000
+    lost = False
 
-        # CLOCK_FPS
-        self.clock = pygame.time.Clock()
+    # Clock Fps
+    clock = pygame.time.Clock()
+
+    # Fonts
+    font_score = Font("comicsans", 60, "Score: ", (219, 216, 13))
+    font_health = Font("comicsans", 60, "Health: ", (219, 216, 13))
+    font_lose = Font("comicsans", 90, "You lost", (219, 216, 13))
+    font_livelli = Font("comicsans", 60, "Levels: ", (219, 216, 13))
+
+    # Sound / Music
+    hit_sound = Sound('assets', 'hit_sound.mp3', 0.1)
+
+    music = Music(0.7, True)
 
     def set_fps(self, FPS):
         self.clock.tick(FPS)
@@ -37,15 +49,33 @@ class Game:
 
         self.esci = True
 
-    def config_difficulty(self, ondate):
-        if self.livelli >= 4:
+    @classmethod
+    def config_difficulty(cls, ondate):
+        if Game.livelli >= 4:
             for scudo_nemico in ondate.nemico_scudo_list:
                 scudo_nemico.movimento = 40
 
-        if self.livelli >= 10:
+        if Game.livelli >= 10:
             for scudo_nemico in ondate.nemico_scudo_list:
                 scudo_nemico.movimento = 55
 
-        if self.livelli >= 15:
+        if Game.livelli >= 15:
             for scudo_nemico in ondate.nemico_scudo_list:
                 scudo_nemico.movimento = 60
+
+            for shooter in ondate.nemico_shooter_list:
+                shooter.bullet_damage = 100
+
+    def draw(self, window, ondate, player):
+        self.font_score.draw(window, 960, 15)
+        self.font_livelli.draw(window, 965, 790)
+
+        ondate.draw(window)
+        player.draw(window)
+
+    @staticmethod
+    def run(window, LARGHEZZA, player, ondate):
+        player.move(LARGHEZZA)
+        player.shoot(window)
+
+        Game.config_difficulty(ondate)

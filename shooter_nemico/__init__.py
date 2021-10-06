@@ -8,12 +8,13 @@ class Shooter:
     def __init__(self, x, y):
         self.vita = 100
         self.morto = False
+        self.bullet_damage = 50
 
         self.image = pygame.image.load(os.path.join('assets', 'cecchinoBlu.png'))
         self.rect = pygame.Rect(x, y, self.image.get_width(), self.image.get_height())
         self.lista_proiettili = []
 
-    def shoot(self, window, bullet):
+    def shoot(self, bullet):
         self.lista_proiettili.append(bullet)
 
     def update_proiettile(self):
@@ -23,7 +24,8 @@ class Shooter:
     def check_collision_proiettile(self, player, ALTEZZA):
         for bullet in self.lista_proiettili:
             if bullet.rect.colliderect(player.rect):  # se colpiscono il player
-                player.vita -= 50
+                player.vita -= self.bullet_damage
+
                 self.lista_proiettili.remove(bullet)
 
             if bullet.rect.y - bullet.rect.height > ALTEZZA:  # se superano lo schermo
@@ -37,7 +39,7 @@ class Shooter:
             self.vita -= bullet.danno
             self.morto = True
 
-            return  self.morto
+            return self.morto
 
     def check_collision_shooter(self, player):
         if self.rect.colliderect(player.rect):
