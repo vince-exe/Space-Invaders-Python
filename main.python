@@ -76,7 +76,7 @@ def main():
 
         font_score.draw(window, 960, 15)
         font_livelli.draw(window, 965, 790)
-        
+
         ondate.draw(window)
 
         pygame.display.update()

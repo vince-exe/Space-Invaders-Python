@@ -55,7 +55,7 @@ class Ondate:
                 player.vita -= 25
                 self.nemico_scudo_list.remove(nemico_scudo)
 
-            if nemico_scudo.rect.y - nemico_scudo.rect.height >= ALTEZZA:   # check collision SCUDO_NEMICO + limite mappa
+            if nemico_scudo.rect.y - nemico_scudo.rect.height >= ALTEZZA:  # check collision SCUDO_NEMICO + limite mappa
                 self.nemico_scudo_list.remove(nemico_scudo)
                 game.lost = True
 

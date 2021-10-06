@@ -6,6 +6,7 @@ from proiettile import Proiettile
 class Player:
     def __init__(self, x, y, directory, nome_file, scalax, scalay):
         self.vita = 200
+
         self.image = pygame.image.load(os.path.join(directory, nome_file))
         self.image = pygame.transform.scale(self.image, (scalax, scalay))
         self.image = pygame.transform.rotate(self.image, 180)
@@ -42,16 +43,10 @@ class Player:
             for nemico_scudo in ondate.nemico_scudo_list:
                 if bullet.rect.colliderect(nemico_scudo.rect):  # check collision con il nemico scudo
                     self.lista_proiettili.remove(bullet)
+
                     sound.sound.play()
 
-                    if nemico_scudo.scudo > 0:
-                        nemico_scudo.scudo -= bullet.danno
-
-                    elif nemico_scudo.vita > 0:
-                        nemico_scudo.vita -= bullet.danno
-                        nemico_scudo.vita -= bullet.danno
-
-                    else:
+                    if nemico_scudo.check_morto(bullet):
                         ondate.nemico_scudo_list.remove(nemico_scudo)
 
                         game.score += 1
@@ -60,13 +55,10 @@ class Player:
             for shooter in ondate.nemico_shooter_list:
                 if bullet.rect.colliderect(shooter.rect):
                     self.lista_proiettili.remove(bullet)
+
                     sound.sound.play()
 
-                    if shooter.vita == 100:
-                        shooter.vita -= bullet.danno
-
-                    elif shooter.vita == 50:
-                        shooter.vita -= bullet.danno
+                    if shooter.check_morto(bullet):
                         ondate.nemico_shooter_list.remove(shooter)
 
                         game.score += 1
